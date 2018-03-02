@@ -44,4 +44,8 @@ WechatTimelineShare.shareTimeline(
     }
 )
 ```
-
+### android 7以及以上版本会出现android.os.FileUriExposedException问题.
+参考[stackoverflow解决FileUriExposedException问题](https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed)
+ - 配置fileprovide,但是经过测试,单图是可以微信分享,但是多图分享还是不行.
+ - 使用StrictMode,需要自己继承Application类,并注册到AndroidManifest.xml上.
+ - 代替startActivity(intent),使用startActivity(Intent.createChooser(intent, "Your title"));,经过测试是可以成功分享.并且是改动最小的方法.

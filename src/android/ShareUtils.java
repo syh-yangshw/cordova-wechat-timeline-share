@@ -75,7 +75,9 @@ public class ShareUtils {
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_STREAM, imageList); //图片数据（支持本地图片的Uri形式）
         intent.putExtra("Kdescription", Kdescription); //微信分享页面，图片上边的描述
-        context.startActivity(intent);
+		//修改:兼容android7以及以上版本
+		context.startActivity(Intent.createChooser(intent,"微信分享"));
+        //context.startActivity(intent);
     }
 
     /**不实用微信sdk检查是否安装微信
