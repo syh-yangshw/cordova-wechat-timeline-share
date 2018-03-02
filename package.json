@@ -1,0 +1,61 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "J:\\WXFX\\cordova-wechat-timeline-share",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "J:\\WXFX\\cordova-wechat-timeline-share",
+        "spec": "J:\\WXFX\\cordova-wechat-timeline-share",
+        "type": "directory"
+      },
+      "E:\\vueDemo\\QQshare\\node_modules"
+    ]
+  ],
+  "_from": "J:\\WXFX\\cordova-wechat-timeline-share",
+  "_id": "cordova-wechat-timeline-share@0.1.0",
+  "_inCache": true,
+  "_location": "/cordova-wechat-timeline-share",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "J:\\WXFX\\cordova-wechat-timeline-share",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "J:\\WXFX\\cordova-wechat-timeline-share",
+    "spec": "J:\\WXFX\\cordova-wechat-timeline-share",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "file:J:\\WXFX\\cordova-wechat-timeline-share",
+  "_shasum": "77be8796247ea0153a3087e989492d7c74d7d38b",
+  "_shrinkwrap": null,
+  "_spec": "J:\\WXFX\\cordova-wechat-timeline-share",
+  "_where": "E:\\vueDemo\\QQshare\\node_modules",
+  "author": "",
+  "cordova": {
+    "id": "cordova-wechat-timeline-share",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "dependencies": {},
+  "description": "微信分享到朋友圈多图",
+  "devDependencies": {},
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "ISC",
+  "name": "cordova-wechat-timeline-share",
+  "optionalDependencies": {},
+  "readme": "微信分享到朋友圈多图\n\n-------------\n\n# iOS如何调用分享\n\n```javascript\n// when use it with ios app, the paths should be base64 data url\n\nvar paths = ['base64 image data', 'base64 image data'];\nWechatTimelineShare.shareTimeline(\n    {\n        urls: paths\n    },\n    function (msg) {\n        console.log(msg);\n    },\n    function (err) {\n        console.log(err);\n    }\n)\n```\n\n# Android 如何调用分享\n\n```javascript\n// when use it with android app, the paths should be absolute path\n\nvar paths = [\n    '/storage/emulated/0/Pictures/wechattimelineshare1.jpeg',\n    '/storage/emulated/0/Pictures/wechattimelineshare0.jpeg'\n]\n\nWechatTimelineShare.shareTimeline(\n    {\n        urls: paths,\n        message:\"测试分享功能\"\n    },\n    function (msg) {\n        console.log(msg);\n    },\n    function (err) {\n        console.log(err);\n    }\n)\n```\n\n",
+  "readmeFilename": "README.md",
+  "version": "0.1.0"
+}
