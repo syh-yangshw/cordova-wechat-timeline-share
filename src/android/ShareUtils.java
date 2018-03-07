@@ -65,6 +65,7 @@ public class ShareUtils {
             File f = new File(picPath);
             if (f.exists()) {
               try{
+				  String imgpath=MediaStore.Images.Media.insertImage(context.getContentResolver(), f.getAbsolutePath(), f.getName(), null);
                   if(paths.size()==1){
                       //单张图片谁用fileprovide转换
                       Uri photoUri = FileProvider.getUriForFile(
@@ -75,7 +76,6 @@ public class ShareUtils {
                   }else{
                       //通过cordova fileTransfer插件下载的图片不能在相册中看到,并且是file(android7以及以上版本已经禁止使用此头传递)开头的,可以通过MediaStore的api将图片插入到相册中
                       //并返回一个content://开头的path,这样android7以及以上版本可以传递
-                      String imgpath=MediaStore.Images.Media.insertImage(context.getContentResolver(), f.getAbsolutePath(), f.getName(), null);
                       imageList.add(Uri.parse(imgpath));
                   }
               }catch(Exception e){
