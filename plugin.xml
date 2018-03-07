@@ -21,10 +21,21 @@
                 <param name="android-package" value="cordovawechattimelineshare.WechatTimelineShare" />
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml">
-
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+          <provider
+            android:name="cordovawechattimelineshare.ImageProvider"
+            android:authorities="${applicationId}.imageProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+              android:name="android.support.FILE_PROVIDER_PATHS"
+              android:resource="@xml/image_paths" />
+          </provider> 
         </config-file>
         <source-file src="src/android/WechatTimelineShare.java" target-dir="src/cordovawechattimelineshare/WechatTimelineShare" />
         <source-file src="src/android/ShareUtils.java" target-dir="src/cordovawechattimelineshare/ShareUtils" />
+        <source-file src="src/android/ImageProvider.java" target-dir="src/cordovawechattimelineshare/ImageProvider" />
+        <source-file src="src/android/xml/image_paths.xml" target-dir="res/xml" />
+        <framework src="com.android.support:support-v4:24.1.1+" />
     </platform>
 </plugin>
