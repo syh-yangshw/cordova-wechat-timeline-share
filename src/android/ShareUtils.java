@@ -67,17 +67,18 @@ public class ShareUtils {
               try{
 				  String imgpath=MediaStore.Images.Media.insertImage(context.getContentResolver(), f.getAbsolutePath(), f.getName(), null);
                   if(paths.size()==1){
-                      //单张图片谁用fileprovide转换
-                      Uri photoUri = FileProvider.getUriForFile(
-                              context,
-                              context.getPackageName() + ".imageProvider",
-                              f);
-                      imageList.add(photoUri);
+//                      //单张图片谁用fileprovide转换
+//                      Uri photoUri = FileProvider.getUriForFile(
+//                              context,
+//                              context.getPackageName() + ".imageProvider",
+//                              f);
+                      imageList.add(Uri.parse(imgpath));
                   }else{
                       //通过cordova fileTransfer插件下载的图片不能在相册中看到,并且是file(android7以及以上版本已经禁止使用此头传递)开头的,可以通过MediaStore的api将图片插入到相册中
                       //并返回一个content://开头的path,这样android7以及以上版本可以传递
                       imageList.add(Uri.parse(imgpath));
                   }
+				  deleteCacheImage(f);
               }catch(Exception e){
                 Toast.makeText(context,"网络错误,请稍后再试",Toast.LENGTH_SHORT).show();
                 return;
@@ -100,6 +101,18 @@ public class ShareUtils {
         intent.putExtra("Kdescription", Kdescription); //微信分享页面，图片上边的描述
         context.startActivity(intent);
     }
+	
+	public static void deleteCacheImage(File file){
+        if(!file.exists()){
+            return ;
+        }
+        try{
+            file.delete();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     /**不实用微信sdk检查是否安装微信
      * @param context
