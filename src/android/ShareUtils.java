@@ -4,6 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.widget.Toast;
 import android.support.v4.content.FileProvider;
@@ -61,34 +63,47 @@ public class ShareUtils {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI"));
         ArrayList<Uri> imageList = new ArrayList<Uri>();
+		ArrayList<String> imagePaths = new ArrayList<String>();
         for (String picPath : paths) {
-            File f = new File(picPath);
-            if (f.exists()) {
-              try{
-				  String imgpath=MediaStore.Images.Media.insertImage(context.getContentResolver(), f.getAbsolutePath(), f.getName(), null);
-                  if(paths.size()==1){
-//                      //单张图片谁用fileprovide转换
-//                      Uri photoUri = FileProvider.getUriForFile(
-//                              context,
-//                              context.getPackageName() + ".imageProvider",
-//                              f);
-                      imageList.add(Uri.parse(imgpath));
-                  }else{
-                      //通过cordova fileTransfer插件下载的图片不能在相册中看到,并且是file(android7以及以上版本已经禁止使用此头传递)开头的,可以通过MediaStore的api将图片插入到相册中
-                      //并返回一个content://开头的path,这样android7以及以上版本可以传递
-                      imageList.add(Uri.parse(imgpath));
-                  }
-				  deleteCacheImage(f);
-              }catch(Exception e){
-                Toast.makeText(context,"网络错误,请稍后再试",Toast.LENGTH_SHORT).show();
-                return;
-              }
-            }
+			Uri imgUri=Uri.parse(picPath);
+            imageList.add(imgUri);
+//            File f = new File(picPath);
+//                  if (f.exists()) {
+//                      try{
+//                          //String imgpath=MediaStore.Images.Media.insertImage(context.getContentResolver(), f.getAbsolutePath(), f.getName(), null);
+//                          //Uri imgUri=Uri.parse(imgpath);
+//                          String picpath=getImagePath(imgUri,null,context);
+//                          if(paths.size()==1){
+////                      //单张图片谁用fileprovide转换
+////                      Uri photoUri = FileProvider.getUriForFile(
+////                              context,
+////                              context.getPackageName() + ".imageProvider",
+////                              f);
+//                              imageList.add(imgUri);
+//                          }else{
+//                              //通过cordova fileTransfer插件下载的图片不能在相册中看到,并且是file(android7以及以上版本已经禁止使用此头传递)开头的,可以通过MediaStore的api将图片插入到相册中
+//                              //并返回一个content://开头的path,这样android7以及以上版本可以传递
+//                              imageList.add(imgUri);
+//                          }
+//                          imagePaths.add(picpath);
+//                          deleteCacheImage(f);
+//                      }catch(Exception e){
+//                          Toast.makeText(context,"网络错误,请稍后再试",Toast.LENGTH_SHORT).show();
+//                return;
+//              }
+//            }
         }
         if(imageList.size() == 0){
             Toast.makeText(context,"图片不存在",Toast.LENGTH_SHORT).show();
             return;
         }
+		//刷新相册缓存
+        MediaScannerConnection.scanFile(context,imagePaths.toArray(new String[imagePaths.size()]), null, new MediaScannerConnection.OnScanCompletedListener() {
+            @Override
+            public void onScanCompleted(String path, Uri uri) {
+
+            }
+        });
         intent.setType("image/*");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if(paths.size()==1){
@@ -100,6 +115,19 @@ public class ShareUtils {
         }
         intent.putExtra("Kdescription", Kdescription); //微信分享页面，图片上边的描述
         context.startActivity(intent);
+    }
+
+
+	private static String getImagePath(Uri uri, String selection,Context context) {
+        String path = null;
+        Cursor cursor = context.getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
     }
 	
 	public static void deleteCacheImage(File file){

@@ -22,7 +22,7 @@
             </feature>
         </config-file>
         <config-file parent="/manifest/application" target="AndroidManifest.xml">
-          <provider
+          <!-- <provider
             android:name="cordovawechattimelineshare.ImageProvider"
             android:authorities="${applicationId}.imageProvider"
             android:exported="false"
@@ -30,12 +30,13 @@
             <meta-data
               android:name="android.support.FILE_PROVIDER_PATHS"
               android:resource="@xml/image_paths" />
-          </provider> 
+          </provider>  -->
         </config-file>
         <source-file src="src/android/WechatTimelineShare.java" target-dir="src/cordovawechattimelineshare/WechatTimelineShare" />
         <source-file src="src/android/ShareUtils.java" target-dir="src/cordovawechattimelineshare/ShareUtils" />
-        <source-file src="src/android/ImageProvider.java" target-dir="src/cordovawechattimelineshare/ImageProvider" />
-        <source-file src="src/android/xml/image_paths.xml" target-dir="res/xml" />
-        <framework src="com.android.support:support-v4:24.1.1+" />
+		<dependency id="cordova-plugin-photo-library" version="^2.1.0"/>
+        <!-- <source-file src="src/android/ImageProvider.java" target-dir="src/cordovawechattimelineshare/ImageProvider" /> -->
+        <!-- <source-file src="src/android/xml/image_paths.xml" target-dir="res/xml" /> -->
+        <!-- <framework src="com.android.support:support-v4:24.1.1+" /> -->
     </platform>
 </plugin>
